@@ -21,21 +21,27 @@ public class MainActivity extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Aqui é pego o os EditTexts onde foi digitado o email, o assunto e o texto que vai ser enviado
                 EditText etEmail = findViewById(R.id.etEmail);
                 EditText etAssunto = findViewById(R.id.etAssunto);
                 EditText etTexto = findViewById(R.id.etTexto);
+                //Aqui é extraído os textos e passamos para string
                 String email = etEmail.getText().toString();
                 String assunto = etAssunto.getText().toString();
                 String texto = etTexto.getText().toString();
+                //Depois é criado um intent que vai direcionar para algum outro aplicativo
                 Intent i = new Intent(Intent.ACTION_SENDTO);
-
+                //Aqui é definido que aplicativo será algum sistema de email
                 i.setData(Uri.parse("mailto:"));
 
+                //Aqui é criado um array que extrairá todos os emails digitados, pois sempre podemos digitar mais de um endereço
                 String[] emails = new String[]{email};
-                i.putExtra(Intent.EXTRA_EMAIL, emails);
+                //Nas próximas linha é passada as informações: o email (que é passado em forma de array), o assunto e o texto
+                i.putExtra(Intent.EXTRA_EMAIL, emails);//
                 i.putExtra(Intent.EXTRA_SUBJECT, assunto);
                 i.putExtra(Intent.EXTRA_TEXT, texto);
 
+                //Depois tento iniciar a atividade para enviar o email, caso não seja possível, o programa criará um aviso
                 try {
                     startActivity(Intent.createChooser(i, "Escolha o APP"));
                 } catch (ActivityNotFoundException e) {
